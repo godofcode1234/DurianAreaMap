@@ -1,0 +1,220 @@
+html,
+body {
+    background-color: #fff;
+    color: #636b6f;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 200;
+    height: 100vh;
+    margin: 0;
+}
+
+#map {
+    width: 100%;
+    height: 100vh;
+    margin-top: 10px;
+}
+
+
+button {
+    position: relative;
+    z-index: 2;
+    background-color: #ffffff;
+    margin-left: 5px;
+    border-radius: 5px;
+}
+
+#closeNav,
+#openNav {
+    position: absolute;
+    top: 50%;
+}
+
+.content-wrapper {
+    position: relative;
+}
+
+#map {
+    position: relative;
+    z-index: 1;
+}
+
+
+.list-group {
+    position: unset !important;
+}
+
+.form-inline {
+    padding-top: 10px;
+}
+
+#list {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#list td {
+    cursor: pointer;
+}
+
+#list td,
+#list th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#list tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#list tr:hover {
+    background-color: #ddd;
+}
+
+#list th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #D7D2FA;
+    color: rgb(5, 5, 5);
+
+}
+
+#back {
+    position: absolute;
+    top: 17%;
+    width: 30px;
+    height: 30px;
+}
+
+#back>i {
+    position: absolute;
+    left: 24%;
+}
+
+.search {
+    display: flex;
+}
+
+h3 {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+}
+
+#list {
+    display: none;
+}
+
+#logo {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    left: 92.3%;
+    top: 3%;
+    opacity: 85%;
+}
+
+.show-checkbox {
+    display: grid;
+    position: absolute;
+    z-index: 2;
+    left: 82%;
+    top: 20%;
+    background-color: white;
+    padding: 4px 0px 0px 6px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+label {
+    margin-bottom: 2px;
+}
+
+.change-map {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    left: 86%;
+    bottom: 20%;
+    border-radius: 3px;
+}
+
+select {
+    font-weight: bold;
+}
+
+.info-year {
+    width: 222px;
+    height: 60px;
+    background-color: white;
+    position: absolute;
+    z-index: 2;
+    right: 0px;
+    bottom: 35px;
+    border-radius: 3px;
+    left: 81.54%;
+    opacity: 80%;
+    display: none;
+}
+
+.info-year img span {
+    position: absolute;
+}
+
+span {
+    margin: 0px 6px;
+    font-size: 10px;
+}
+
+.position-ref {
+    float: right;
+    margin: 10px;
+}
+
+.img-circle {
+    width: 30px;
+    height: 30px;
+}
+
+.right-info {
+    display: flex;
+}
+
+.leaflet-popup-content {
+    width:1000px;    
+    }
+  
+    .tab {
+    overflow: hidden;
+    
+  }
+  
+  /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+   
+    transition: 0.3s;
+    font-size: 15px;
+  }
+  
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+  
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+  
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
