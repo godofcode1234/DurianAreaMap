@@ -13,7 +13,10 @@ class MapController extends Controller
     }
 
     public function loadPolyline(){
-        $getData = DB::table('diadiemsatlo')->select('diemcanhbao', 'mota', 'ghichu', 'dodai', 'shape')->get();
+        $getData = DB::table('diadiemsatlo')->join('hinhanh', 'diadiemsatlo.madiadiem', '=', 'hinhanh.madiadiem')
+        ->join('video', 'diadiemsatlo.madiadiem', '=', 'video.madiadiem')
+        ->select('diemcanhbao', 'mota', 'ghichu', 'dodai', 'shape','hinhanh','video')->get();
+        
         return view('admin.qlsl.map')->with('poly', $getData);
     }
 }

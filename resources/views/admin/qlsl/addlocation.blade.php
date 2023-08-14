@@ -55,7 +55,7 @@
                     <div class="form-group">
                         <label for="exampleInputtext1">Hình ảnh</label>
 
-                        <input id="hinhanh" name="hinhanh" type="file" class="form-control" id="exampleInputtext1" value=""
+                        <input id="hinhanh" name="hinhanh[]" type="file" class="form-control" id="exampleInputtext1" value=""
                         multiple required>
                     </div>
 

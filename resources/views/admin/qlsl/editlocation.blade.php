@@ -11,7 +11,7 @@
     <section class="col-lg connectedSortable ui-sortable">
         <div class="element">
             <div class="card card-primary">
-                <form id="myForm" action="{{ url('/admin/qlsl/updatelocation') }}" method="POST">
+                <form id="myForm" action="{{ url('/admin/qlsl/updatelocation') }}" method="POST" enctype="multipart/form-data">
                     <div class="card-body">
                         <input type="hidden" id="_token" name="_token" value="{!! csrf_token() !!}" />
                         <input style="display: none;" id="maxa" name="maxa" type="text" class="form-control"
@@ -46,6 +46,21 @@
                             <input id="shapeInput" name="shape" type="text" class="form-control" id="exampleInputtext1"
                                 value="{{ $edit[0]->shape}}" required>
                         </div>
+                        <div class="form-group">
+                            <label for="exampleInputtext1">Đường link video</label>
+
+                            <input id="video" name="video" type="text" class="form-control" id="exampleInputtext1"
+                                value="{{ $hinh_video[0]->video }}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputtext1">Hình ảnh</label>
+                        @foreach ($hinh_video as $hinh)
+                        <img src="{{ asset("hinhqlsl/".$hinh->hinhanh) }}" style="width: 250px;height: auto">'
+                        @endforeach
+                        <input id="hinhanh" name="hinhanh[]" type="file" class="form-control" id="exampleInputtext1" value=""
+                        multiple required>
+                    </div>
                     </div>
                     <div id="map"></div>
                     <label class="switch">

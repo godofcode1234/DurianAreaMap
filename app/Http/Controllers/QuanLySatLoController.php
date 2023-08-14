@@ -10,6 +10,7 @@ use App\Video;
 use App\Diadiemsatlo;
 use Illuminate\Support\Facades\Storage;
 
+
 class QuanLySatLoController extends Controller
 {
     public function __construct()
@@ -19,7 +20,6 @@ class QuanLySatLoController extends Controller
 
     public function location()
     {
-
         $getData = DB::table('diadiemsatlo')->join('xa', 'diadiemsatlo.maxa', '=', 'xa.maxa')
             ->join('huyen', 'xa.mahuyen', '=', 'huyen.mahuyen')
             ->select('huyen.tenhuyen', 'xa.tenxa', 'diadiemsatlo.mota', 'diadiemsatlo.madiadiem')->get();
@@ -40,14 +40,13 @@ class QuanLySatLoController extends Controller
         $mota = $request->mota;
         $ghichu = $request->ghichu;
         $shape = $request->shape;
-        $hinhanh = $request->file('hinhanh')->getClientOriginalName();
-        $request->file('hinhanh')->move(public_path('hinhqlsl'), $hinhanh);
+        $hinhanhs = $request->file('hinhanh');
         $video = $request->video;
 
         $id = rand(1, 10000);
         $madiadiem = rand(1, 10000);
         $id_video = rand(1, 1000);
-        $id_hinhanh = rand(1, 1000);
+
         // Kiểm tra xem id đã tồn tại trong cơ sở dữ liệu chưa
         while (DB::table('diadiemsatlo')->where('id', $id)->exists()) {
             $id = rand(1, 10000);
@@ -69,11 +68,19 @@ class QuanLySatLoController extends Controller
         $Diadiemsatlo->madiadiem = $madiadiem;
         $Diadiemsatlo->save();
 
-        $Hinhanh = new HinhAnh();
-        $Hinhanh->hinhanh = $hinhanh;
-        $Hinhanh->madiadiem = $madiadiem;
-        $Hinhanh->id = $id_hinhanh;
-        $Hinhanh->save();
+
+
+        foreach ($hinhanhs as $hinhanh) {
+            $id_hinhanh = rand(1, 1000);
+            $ten_hinh = $hinhanh->getClientOriginalName();
+            $hinhanh->move(public_path('hinhqlsl'), $ten_hinh);
+
+            $Hinhanh = new HinhAnh;
+            $Hinhanh->hinhanh = $ten_hinh;
+            $Hinhanh->madiadiem = $madiadiem;
+            $Hinhanh->id = $id_hinhanh;
+            $Hinhanh->save();
+        }
 
         $Video = new Video();
         $Video->video = $video;
@@ -106,9 +113,12 @@ class QuanLySatLoController extends Controller
 
     public function editLocation($madiadiem)
     {
+        $hinhanhvideo = DB::table('diadiemsatlo')->join('hinhanh', 'diadiemsatlo.madiadiem', '=', 'hinhanh.madiadiem')
+            ->join('video', 'diadiemsatlo.madiadiem', '=', 'video.madiadiem')
+            ->select('hinhanh', 'video')->get();
         $getData = DB::table('diadiemsatlo')->join('xa', 'diadiemsatlo.maxa', '=', 'xa.maxa')
             ->select('diadiemsatlo.maxa', 'xa.tenxa', 'diemcanhbao', 'mota', 'ghichu', 'dodai', 'shape', 'madiadiem')->where('madiadiem', $madiadiem)->get();
-        return view('admin.qlsl.editlocation')->with('edit', $getData);
+        return view('admin.qlsl.editlocation')->with('edit', $getData)->with('hinh_video', $hinhanhvideo);
     }
 
     public function updateLocation(Request $request)
@@ -120,25 +130,70 @@ class QuanLySatLoController extends Controller
         $mota = $request->mota;
         $ghichu = $request->ghichu;
         $shape = $request->shape;
+        $hinhanhs = $request->file('hinhanh');
+        $video = $request->video;
 
-        $updateData = DB::table('diadiemsatlo')->where('madiadiem', $madiadiem)->update([
-            'maxa' => $maxa,
-            'diemcanhbao' => $diemcanhbao,
-            'mota' => $mota,
-            'ghichu' => $ghichu,
-            'dodai' => $dodai,
-            'shape' => $shape
-        ]);
+        $Diadiemsatlo = Diadiemsatlo::where('madiadiem', $madiadiem)->first();
+        $Diadiemsatlo->maxa = $maxa;
+        $Diadiemsatlo->diemcanhbao = $diemcanhbao;
+        $Diadiemsatlo->dodai = $dodai;
+        $Diadiemsatlo->mota = $mota;
+        $Diadiemsatlo->ghichu = $ghichu;
+        $Diadiemsatlo->shape = $shape;
+        $Diadiemsatlo->save();
 
+        // Xóa ảnh cũ và bản ghi từ cơ sở dữ liệu
+        $oldImages = HinhAnh::where('madiadiem', $madiadiem)->get();
+        foreach ($oldImages as $oldImage) {
+            $imagePath = public_path('hinhqlsl/' . $oldImage->hinhanh);
+            if (Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+            $oldImage->delete();
+        }
 
-        if ($updateData) {
-            Toastr::success('Đã cập nhật', 'Thành công');
+        $newHinhanhs = array();
+
+        foreach ($hinhanhs as $hinhanh) {
+            $id_hinhanh = rand(1, 1000);
+            $ten_hinh = $hinhanh->getClientOriginalName();
+            $hinhanh->move(public_path('hinhqlsl'), $ten_hinh);
+        
+            $existingHinhanh = HinhAnh::where('madiadiem', $madiadiem)->first();
+            if ($existingHinhanh) {
+                $existingHinhanh->hinhanh = $ten_hinh;
+                $existingHinhanh->save();
+            } else {
+                $newHinhanh = new HinhAnh;
+                $newHinhanh->hinhanh = $ten_hinh;
+                $newHinhanh->madiadiem = $madiadiem;
+                $newHinhanh->id = $id_hinhanh;
+                $newHinhanh->save();
+        
+                $newHinhanhs[] = $newHinhanh;
+            }
+        }
+        
+        $newVideo = null;
+        $Video = Video::where('madiadiem', $madiadiem)->first();
+        if ($Video) {
+            $Video->video = $video;
+            $Video->save();
+        } else {
+            $newVideo = new Video;
+            $newVideo->video = $video;
+            $newVideo->madiadiem = $madiadiem;
+            $newVideo->id = rand(1, 1000);
+            $newVideo->save();
+        }
+
+        //Kiểm tra lệnh để trả về một thông báo
+        if ($Diadiemsatlo && !empty($newHinhanhs) && $newVideo) {
+            Toastr::success('Đã cập nhật địa điểm sạt lở', 'Thành công');
         } else {
             Toastr::error('Cập nhật không thành công', 'Thất bại');
         }
-
-        //Thực hiện chuyển trang
-        return redirect('/location');
+        return redirect('location');
     }
 
     public function destroy($madiadiem)
@@ -147,7 +202,7 @@ class QuanLySatLoController extends Controller
         // dd($tenhinh);
         // Xóa file
         Storage::delete("hinhqlsl/$tenhinh");
-        
+
         $diadiem = Diadiemsatlo::find($madiadiem)->delete();
         $hinhanh = HinhAnh::find($madiadiem)->delete();
         $video = Video::find($madiadiem)->delete();

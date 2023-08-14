@@ -122,7 +122,6 @@
     <script src="{{ asset('js/map.js') }}"></script>
     <script>
         @foreach ($poly as $polyline)
-
             var coordinates = {{ $polyline->shape }};
 
             $popupContent = '<div class="tab">'+
@@ -163,7 +162,25 @@
                    '</tr>'+
                    '<tr>'+
                        '<th> Hình ảnh </th>'+
-                       '<td> gerjgb </td>'+
+                       '<td>'+
+                        '<div id="carousel-" class="carousel slide" data-ride="carousel">'+ 
+            '<div class="carousel-inner">'+ 
+                '@foreach ($poly as $item )'+ 
+                '<div class="carousel-item {{ $loop->first ? "active" : "" }}">'+ 
+                        '<img src="{{ asset("hinhqlsl/".$item->hinhanh) }}" alt="Hình ảnh" style="width: 250px;height: auto">'+ 
+                    '</div>'+ 
+                '@endforeach'+ 
+            '</div>'+ 
+            '<a class="carousel-control-prev" href="#carousel-" role="button" data-slide="prev">'+ 
+                '<span class="carousel-control-prev-icon" aria-hidden="true"></span>'+ 
+                '<span class="sr-only">Previous</span>'+ 
+            '</a>'+ 
+            '<a class="carousel-control-next" href="#carousel-" role="button" data-slide="next">'+ 
+                '<span class="carousel-control-next-icon" aria-hidden="true"></span>'+ 
+                '<span class="sr-only">Next</span>'+ 
+            '</a>'+ 
+        '</div>'+ 
+                        '</td>'+
                    '</tr>'+
                    '<tr>'+
                        '<th> Mô tả </th>'+
@@ -183,7 +200,7 @@
                    '</tr>'+
                    '<tr>'+
                        '<th> Video </th>'+
-                       '<td> gerjgb </td>'+
+                       '<td> <iframe width="250" height="auto" src="{{ $polyline->video}}" title="Go Cong Dong Tien Giang" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </td>'+
                    '</tr>'+
                    '<tr>'+
                        '<th> Mô tả </th>'+
