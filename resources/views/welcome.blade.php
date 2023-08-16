@@ -91,6 +91,8 @@
         <div id="main" style="margin-left:30%;">
             <div class="w3-container">
 
+
+                <button id="back" class="w3-button w3-teal w3-xlarge"><i class="fa-solid fa-house fa-2xs"></i></button>
                 <button id="closeNav" class="w3-button w3-teal w3-xlarge" onclick="w3_close()"><i
                         class="fa-solid fa-chevron-left"></i></button>
                 <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()" style="display: none;"><i
@@ -99,7 +101,7 @@
                 <div class="leaflet-right-top">
 
                     <div class="logo">
-                        <img id="logo" style="width: 80px; height: 80px; top:9.23%"
+                        <img id="logo" style="width: 80px; height: 80px;"
                             src="{{ asset('img/istockphoto-1251643808-1024x1024.jpg') }}" alt="">
                     </div>
 
@@ -122,19 +124,16 @@
                                     <input type="checkbox" value=""> Sạt lở
                                 </label>
                             </div>
-
                             <div>
                                 <label for="">
                                     <input id="huyen" type="checkbox" value=""> Huyện
                                 </label>
                             </div>
-
                             <div>
                                 <label for="">
                                     <input id="xa" type="checkbox" value=""> Xã
                                 </label>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -156,88 +155,112 @@
                     <img src="{{ asset('img/Shorelinechanges0_201415.png') }}" alt=""><span>2014-15</span>
                     <img src="{{ asset('img/Shorelinechanges0_2016.png') }}" alt=""><span>2016</span>
                 </div>
-
                 <div id="map">
+
                 </div>
             </div>
+        </div>
     </body>
-<script src="{{ asset('js/welcome.js')}}"></script>
-<script>
-    @foreach ($diadanh as $polyline)
+    <script src="{{ asset('js/map.js') }}"></script>
+    <script>
 
-        var coordinates = {{ $polyline->shape }};
-
-        $popupContent = '<div class="tab">'+
-    
-    ' <button class="tablinks" onclick="openCity(event, \'ttc\')">Thông tin chung</button>'+
-  
-    '  <button class="tablinks" onclick="openCity(event, \'ha\')">Hình ảnh</button>'+
-  
-    '  <button class="tablinks" onclick="openCity(event, \'video\')">Video</button>'+
-   
-    '</div>'+
-   '<div id="ttc" class="tabcontent">'+
-   '<table>'+
-   '<tbody>'+
-   
-           '<tr>'+
-               '<th> Điểm cảnh báo </th>'+
-               '<td> {{ $polyline->diemcanhbao }} </td>'+
-           '</tr>'+
-           '<tr>'+
-               '<th> Ghi chú </th>'+
-               '<td> {{ $polyline->ghichu }} </td>'+
-           '</tr>'+
-           '<tr>'+
-               '<th> Mô tả </th>'+
-               '<td> {{ $polyline->mota }} </td>'+
-           '</tr>'+
-       
-   '</tbody>'+
-'</table>'+'</div>'+
-'<div id="ha" class="tabcontent">'+
-   '<table>'+
-       '<tbody>'+
+        @foreach ($diadanh as $polyline)
+            @php
+                $hinhanh = DB::select("SELECT * FROM hinhanh WHERE madiadiem =".$polyline->madiadiem);
+            @endphp
+            var coordinates = {{ $polyline->shape }};
            
-               '<tr>'+
-                   '<th> Địa điểm </th>'+
-                   '<td> {{ $polyline->diemcanhbao }} </td>'+
-               '</tr>'+
-               '<tr>'+
-                   '<th> Hình ảnh </th>'+
-                   '<td> gerjgb </td>'+
-               '</tr>'+
-               '<tr>'+
-                   '<th> Mô tả </th>'+
-                   '<td> {{ $polyline->mota }} </td>'+
-               '</tr>'+
-          
-       '</tbody>'+
-   '</table>'+
-'</div>'+
-'<div id="video" class="tabcontent">'+
-   '<table>'+
+            $popupContent = '<div class="tab">'+
+        
+        ' <button class="tablinks active"  onclick="openCity(event, \'ttc\')">Thông tin chung</button>'+
+            '@if($polyline->hinhanh)'+
+        '  <button class="tablinks" onclick="openCity(event, \'ha\')">Hình ảnh</button>'+
+           '@endif'+
+           '@if($polyline->video) '+
+        '  <button class="tablinks" onclick="openCity(event, \'video\')">Video</button>'+
+            '@endif'+
+        '</div>'+
+       '<div id="ttc" style="display: block" class="tabcontent">'+
+       '<table>'+
        '<tbody>'+
-          
+       
                '<tr>'+
-                   '<th> Địa điểm </th>'+
+                   '<th> Điểm cảnh báo </th>'+
                    '<td> {{ $polyline->diemcanhbao }} </td>'+
                '</tr>'+
                '<tr>'+
-                   '<th> Video </th>'+
-                   '<td> gerjgb </td>'+
+                   '<th> Ghi chú </th>'+
+                   '<td> {{ $polyline->ghichu }} </td>'+
                '</tr>'+
                '<tr>'+
                    '<th> Mô tả </th>'+
                    '<td> {{ $polyline->mota }} </td>'+
                '</tr>'+
+           
        '</tbody>'+
-   '</table>'+
-'</div>'
+   '</table>'+'</div>'+
+   '<div id="ha" class="tabcontent">'+
+       '<table>'+
+           '<tbody>'+
+               
+                   '<tr>'+
+                       '<th> Địa điểm </th>'+
+                       '<td> {{ $polyline->diemcanhbao }} </td>'+
+                   '</tr>'+
+                   '<tr>'+
+                       '<th> Hình ảnh </th>'+
+                       '<td>'+
+                        '<div id="carousel-" class="carousel slide" data-ride="carousel">'+ 
+            '<div class="carousel-inner">'+     
+                '@foreach ($hinhanh as $item )'+ 
+                '<div class="carousel-item {{ $loop->first ? "active" : "" }}">'+ 
+                        '<img src="{{ url('storage/hinhqlsl/'.$item->hinhanh) }}" style="width: 294px;height: 150px">'+ 
+                    '</div>'+ 
+                '@endforeach'+ 
+            '</div>'+ 
+            '<a class="carousel-control-prev" href="#carousel-" role="button" data-slide="prev">'+ 
+                '<span class="carousel-control-prev-icon" aria-hidden="true"></span>'+ 
+                '<span class="sr-only">Previous</span>'+ 
+            '</a>'+ 
+            '<a class="carousel-control-next" href="#carousel-" role="button" data-slide="next">'+ 
+                '<span class="carousel-control-next-icon" aria-hidden="true"></span>'+ 
+                '<span class="sr-only">Next</span>'+ 
+            '</a>'+ 
+        '</div>'+ 
+                        '</td>'+
+                   '</tr>'+
+                   '<tr>'+
+                       '<th> Mô tả </th>'+
+                       '<td> {{ $polyline->mota }} </td>'+
+                   '</tr>'+
+              
+           '</tbody>'+
+       '</table>'+
+   '</div>'+
+   '<div id="video" class="tabcontent">'+
+       '<table>'+
+           '<tbody>'+
+              
+                   '<tr>'+
+                       '<th> Địa điểm </th>'+
+                       '<td> {{ $polyline->diemcanhbao }} </td>'+
+                   '</tr>'+
+                   '<tr>'+
+                       '<th> Video </th>'+
+                       '<td> <iframe width="294px" height="auto" src="{{ $polyline->video}}" ></iframe> </td>'+
+                   '</tr>'+
+                   '<tr>'+
+                       '<th> Mô tả </th>'+
+                       '<td> {{ $polyline->mota }} </td>'+
+                   '</tr>'+
+           '</tbody>'+
+       '</table>'+
+   '</div>'
 '</div>';
-        L.polyline(coordinates, {
-            color: 'red'
-        }).addTo(map).bindPopup($popupContent);
-    @endforeach
-</script>
+
+            L.polyline(coordinates, {
+                color: 'red'
+            }).addTo(map).bindPopup($popupContent);
+        @endforeach
+    </script>
 @endsection

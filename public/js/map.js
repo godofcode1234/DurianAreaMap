@@ -43,6 +43,7 @@ function showTable() {
 
 
 //Chức năng Tìm kiếm
+
 $(document).ready(function () {
     $(".form-control-sidebar").on("keyup", function () {
         var value = $(this).val().toLowerCase();
@@ -148,14 +149,6 @@ fetch('/Geojson/xa.geojson')
 // End Geojson checkbox Xa  
 
 
-$(document).ready(function () {
-    $('#input').on('keyup', function () {
-        var value = $(this).val().toLowerCase();
-        $('table tbody tr').filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-    });
-});
 
 
 
@@ -184,3 +177,7 @@ function openCity(evt, cityName) {
     document.getElementById(cityName).style.display = "block";
     evt.currentTarget.className += " active";
   }
+
+
+
+  

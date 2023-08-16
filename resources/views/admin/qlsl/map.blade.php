@@ -5,7 +5,7 @@
 @section('active4')
     active
 @endsection
-@section('body')
+@section('body')    
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/map.css') }}">
 
@@ -121,12 +121,16 @@
     </body>
     <script src="{{ asset('js/map.js') }}"></script>
     <script>
-        @foreach ($poly as $polyline)
-            var coordinates = {{ $polyline->shape }};
 
+        @foreach ($poly as $polyline)
+            @php
+                $hinhanh = DB::select("SELECT * FROM hinhanh WHERE madiadiem =".$polyline->madiadiem);
+            @endphp
+            var coordinates = {{ $polyline->shape }};
+           
             $popupContent = '<div class="tab">'+
         
-        ' <button class="tablinks" onclick="openCity(event, \'ttc\')">Thông tin chung</button>'+
+        ' <button class="tablinks active"  onclick="openCity(event, \'ttc\')">Thông tin chung</button>'+
             '@if($polyline->hinhanh)'+
         '  <button class="tablinks" onclick="openCity(event, \'ha\')">Hình ảnh</button>'+
            '@endif'+
@@ -134,7 +138,7 @@
         '  <button class="tablinks" onclick="openCity(event, \'video\')">Video</button>'+
             '@endif'+
         '</div>'+
-       '<div id="ttc" class="tabcontent">'+
+       '<div id="ttc" style="display: block" class="tabcontent">'+
        '<table>'+
        '<tbody>'+
        
@@ -165,10 +169,10 @@
                        '<th> Hình ảnh </th>'+
                        '<td>'+
                         '<div id="carousel-" class="carousel slide" data-ride="carousel">'+ 
-            '<div class="carousel-inner">'+ 
-                '@foreach ($poly as $item )'+ 
+            '<div class="carousel-inner">'+     
+                '@foreach ($hinhanh as $item )'+ 
                 '<div class="carousel-item {{ $loop->first ? "active" : "" }}">'+ 
-                        '<img src="{{ url('storage/hinhqlsl/'.$item->hinhanh) }}" alt="Hình ảnh" style="width: 250px;height: auto">'+ 
+                        '<img src="{{ url('storage/hinhqlsl/'.$item->hinhanh) }}" style="width: 294px;height: 150px">'+ 
                     '</div>'+ 
                 '@endforeach'+ 
             '</div>'+ 
@@ -201,7 +205,7 @@
                    '</tr>'+
                    '<tr>'+
                        '<th> Video </th>'+
-                       '<td> <iframe width="250" height="auto" src="{{ $polyline->video}}" ></iframe> </td>'+
+                       '<td> <iframe width="294px" height="auto" src="{{ $polyline->video}}" ></iframe> </td>'+
                    '</tr>'+
                    '<tr>'+
                        '<th> Mô tả </th>'+

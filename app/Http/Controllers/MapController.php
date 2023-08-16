@@ -12,11 +12,13 @@ class MapController extends Controller
         return view('admin.qlsl.map');
     }
 
-    public function loadPolyline(){
+    public function loadPolyline()
+    {
+
         $getData = DB::table('diadiemsatlo')->join('hinhanh', 'diadiemsatlo.madiadiem', '=', 'hinhanh.madiadiem')
-        ->join('video', 'diadiemsatlo.madiadiem', '=', 'video.madiadiem')
-        ->select('diemcanhbao', 'mota', 'ghichu', 'dodai', 'shape','hinhanh','video')->get();
-        
-        return view('admin.qlsl.map')->with('poly', $getData);
+            ->join('video', 'diadiemsatlo.madiadiem', '=', 'video.madiadiem')
+            ->selectRaw('DISTINCT diadiemsatlo.* ,video')->get(); 
+
+        return view('admin.qlsl.map')->with('poly',$getData);
     }
 }

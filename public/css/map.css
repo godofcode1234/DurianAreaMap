@@ -181,7 +181,7 @@ span {
 }
 
 .leaflet-popup-content {
-    width:1000px;    
+    width:auto !important;    
     }
   
     .tab {
@@ -217,4 +217,20 @@ span {
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
+    width: 410px;
+    height: 329px;
+    font-size: 12px;
+  }
+ 
+  .tabcontent table{
+    width: 410px !important;
+    height: 300px;
+  }
+
+  .tabcontent th{
+    width: 100px;
+  }
+
+  .tabcontent tr{
+    height: 20px ;
   }
