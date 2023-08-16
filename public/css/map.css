@@ -109,7 +109,7 @@ h3 {
     position: absolute;
     z-index: 2;
     right: 0;
-    left: 92.3%;
+    left: 93%;
     top: 3%;
     opacity: 85%;
 }
@@ -118,7 +118,7 @@ h3 {
     display: grid;
     position: absolute;
     z-index: 2;
-    left: 82%;
+    left: 87%;
     top: 20%;
     background-color: white;
     padding: 4px 0px 0px 6px;
@@ -134,7 +134,7 @@ label {
     position: absolute;
     z-index: 2;
     right: 0;
-    left: 86%;
+    left: 90%;
     bottom: 20%;
     border-radius: 3px;
 }
