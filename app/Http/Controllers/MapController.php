@@ -15,9 +15,7 @@ class MapController extends Controller
     public function loadPolyline()
     {
 
-        $getData = DB::table('diadiemsatlo')->join('hinhanh', 'diadiemsatlo.madiadiem', '=', 'hinhanh.madiadiem')
-            ->join('video', 'diadiemsatlo.madiadiem', '=', 'video.madiadiem')
-            ->select('diadiemsatlo.*', 'hinhanh', 'video')->get(); 
+        $getData = DB::table('diadiemsatlo')->get(); 
 
         return view('admin.qlsl.map')->with('poly',$getData);
     }
