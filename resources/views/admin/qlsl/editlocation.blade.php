@@ -5,6 +5,9 @@
 @section('breadcrumbs')
 {{ Breadcrumbs::render('diadiemsatlo_edit') }}
 @endsection
+@php
+  use Illuminate\Support\Facades\Storage; 
+@endphp
 @section('qlsl')
 <link rel="stylesheet" href="{{ asset('css/location.css') }}">
 
@@ -48,18 +51,17 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputtext1">Đường link video</label>
-
                             <input id="video" name="video" type="text" class="form-control" id="exampleInputtext1"
-                                value="{{ $hinh_video[0]->video }}" required>
+                                value="{{ $hinh_video[0]->video ?? ''}}" >
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputtext1">Hình ảnh</label>
                         @foreach ($hinh_video as $hinh)
-                        <img src="{{ asset("hinhqlsl/".$hinh->hinhanh) }}" style="width: 250px;height: auto">'
+                        <img src="{{ url('storage/hinhqlsl/'.$hinh->hinhanh) }}" style="width: 250px;height: auto">
                         @endforeach
                         <input id="hinhanh" name="hinhanh[]" type="file" class="form-control" id="exampleInputtext1" value=""
-                        multiple required>
+                        multiple >
                     </div>
                     </div>
                     <div id="map"></div>

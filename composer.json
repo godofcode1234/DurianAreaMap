@@ -12,6 +12,7 @@
         "brian2694/laravel-toastr": "^5.57",
         "davejamesmiller/laravel-breadcrumbs": "*",
         "fideloper/proxy": "^4.0",
+        "fruitcake/laravel-cors": "^2.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
         "twbs/bootstrap": "4.0.0"

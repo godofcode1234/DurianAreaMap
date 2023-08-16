@@ -127,11 +127,12 @@
             $popupContent = '<div class="tab">'+
         
         ' <button class="tablinks" onclick="openCity(event, \'ttc\')">Thông tin chung</button>'+
-      
+            '@if($polyline->hinhanh)'+
         '  <button class="tablinks" onclick="openCity(event, \'ha\')">Hình ảnh</button>'+
-      
+           '@endif'+
+           '@if($polyline->video) '+
         '  <button class="tablinks" onclick="openCity(event, \'video\')">Video</button>'+
-       
+            '@endif'+
         '</div>'+
        '<div id="ttc" class="tabcontent">'+
        '<table>'+
@@ -167,7 +168,7 @@
             '<div class="carousel-inner">'+ 
                 '@foreach ($poly as $item )'+ 
                 '<div class="carousel-item {{ $loop->first ? "active" : "" }}">'+ 
-                        '<img src="{{ asset("hinhqlsl/".$item->hinhanh) }}" alt="Hình ảnh" style="width: 250px;height: auto">'+ 
+                        '<img src="{{ url('storage/hinhqlsl/'.$item->hinhanh) }}" alt="Hình ảnh" style="width: 250px;height: auto">'+ 
                     '</div>'+ 
                 '@endforeach'+ 
             '</div>'+ 
@@ -200,7 +201,7 @@
                    '</tr>'+
                    '<tr>'+
                        '<th> Video </th>'+
-                       '<td> <iframe width="250" height="auto" src="{{ $polyline->video}}" title="Go Cong Dong Tien Giang" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </td>'+
+                       '<td> <iframe width="250" height="auto" src="{{ $polyline->video}}" ></iframe> </td>'+
                    '</tr>'+
                    '<tr>'+
                        '<th> Mô tả </th>'+
