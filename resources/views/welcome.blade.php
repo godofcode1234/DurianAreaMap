@@ -6,6 +6,8 @@
 
     <body>
         <div class="flex-center position-ref full-height">
+            <h3>Hệ Thống Quản lý Sạt Lở</h3>
+            
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -57,7 +59,7 @@
             <h3>DANH SÁCH CÁC ĐIỂM SẠT LỞ</h3>
             <div class="search">
                 <input class="form-control form-control-sidebar" id="input" onkeyup="showTable()" type="search"
-                    placeholder="Search" aria-label="Search">
+                    placeholder="Tìm kiếm" aria-label="Search">
                 <button class="btn btn-sidebar">
                     <i class="fas fa-search fa-fw"></i>
                 </button>
@@ -73,7 +75,7 @@
                             <th>Ghi chú</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="list-view">
                         @foreach ($diadanh as $key => $ddanh)
                             <tr id="list-non">
                                 <td>{{ $key + 1 }}</td>
@@ -98,10 +100,9 @@
                         class="fa-solid fa-chevron-right"></i></button>
 
                 <div class="leaflet-right-top">
-
                     <div class="logo">
                         <img id="logo" style="width: 80px; height: 80px; top: 7%"
-                            src="{{ asset('img/istockphoto-1251643808-1024x1024.jpg') }}" alt="">
+                            src="{{ asset('img/Logo_tỉnh_Tiền_Giang.png') }}" alt="">
                     </div>
 
                     <div class="show-checkbox">
@@ -135,6 +136,7 @@
                     <select name="basemaps" id="basemaps" onchange="changeBasemap(basemaps)">
                         <option value="Defaul">Bản đồ gốc</option>
                         <option value="Streets">Bản đồ đường</option>
+                        <option value="Sat">Bản đồ vệ tinh</option>
                     </select>
                 </div>
 
@@ -282,14 +284,16 @@
             }).addTo(map).bindPopup($popupContent);
 
             polylines.push(_polyline);
-            polylines.forEach(polyline => {
-                let toggle = $('#polyline')[0];
-                toggle.checked = true;
-                    toggle.addEventListener('click', function() {
-                        polyline.setStyle({opacity: toggle.checked ? 1 : 0});
-            }); 
-            }) 
+
         @endforeach
+
+    polylines.forEach(polyline => {
+    let toggle = $('#polyline')[0];
+    toggle.checked = true;
+        toggle.addEventListener('click', function() {
+            polyline.setStyle({opacity: toggle.checked ? 1 : 0});
+}); 
+}) 
 
     </script>
 @endsection

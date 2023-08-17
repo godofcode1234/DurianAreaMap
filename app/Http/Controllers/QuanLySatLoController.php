@@ -132,18 +132,18 @@ class QuanLySatLoController extends Controller
 
     public function editLocation($madiadiem)
     {
-        $location = DB::select('SELECT * FROM diadiemsatlo WHERE madiadiem = ?', [$madiadiem]);
-
-        $xacu = DB::select('SELECT * FROM xa WHERE maxa = ?', [$location[0]->maxa]);
-
         $huyen = DB::table('huyen')->get();
 
         $hinhanhvideo = DB::table('diadiemsatlo')->selectRaw('DISTINCT hinhanh.hinhanh, video.video')->join('hinhanh', 'diadiemsatlo.madiadiem', '=', 'hinhanh.madiadiem')
             ->join('video', 'diadiemsatlo.madiadiem', '=', 'video.madiadiem')
             ->where('diadiemsatlo.madiadiem', $madiadiem)->get();
-        $getData = DB::table('diadiemsatlo')->join('xa', 'diadiemsatlo.maxa', '=', 'xa.maxa')
-            ->select('diadiemsatlo.maxa', 'xa.tenxa', 'diemcanhbao', 'mota', 'ghichu', 'dodai', 'shape', 'madiadiem')->where('madiadiem', $madiadiem)->get();
-        return view('admin.qlsl.editlocation',compact('location', 'xacu'))->with('edit', $getData)->with('hinh_video', $hinhanhvideo)->with('huyen', $huyen);
+
+        $getData = DB::table('diadiemsatlo')->join('xa', 'diadiemsatlo.maxa', '=', 'xa.maxa')->join('huyen', 'xa.mahuyen', '=', 'huyen.mahuyen')
+            ->select('diadiemsatlo.maxa', 'xa.tenxa','xa.mahuyen', 'tenhuyen', 'diemcanhbao', 'mota', 'ghichu', 'dodai', 'shape', 'madiadiem')->where('madiadiem', $madiadiem)->get();
+            
+        $xacu = DB::table('xa')->where('mahuyen',$getData[0]->mahuyen)->get();
+
+        return view('admin.qlsl.editlocation')->with('edit', $getData)->with('hinh_video', $hinhanhvideo)->with('huyen',$huyen)->with('xa',$xacu);
     }
 
     public function updateLocation(Request $request)
@@ -166,9 +166,7 @@ class QuanLySatLoController extends Controller
         $Diadiemsatlo->ghichu = $ghichu;
         $Diadiemsatlo->shape = $shape;
         $Diadiemsatlo->save();
-
-        
-       
+      
         
         if($request->hasFile('hinhanh')){
             $Hinhanh = HinhAnh::where('madiadiem', $madiadiem)->get();

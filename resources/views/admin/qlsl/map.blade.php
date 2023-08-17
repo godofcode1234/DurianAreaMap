@@ -8,14 +8,13 @@
 @section('body')    
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/map.css') }}">
-
     <body>
 
         <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:block;width:30%" id="mySidebar">
             <h3>DANH SÁCH CÁC ĐIỂM SẠT LỞ</h3>
             <div class="search">
                 <input class="form-control form-control-sidebar" id="input" onkeyup="showTable()" type="search"
-                    placeholder="Search" aria-label="Search">
+                    placeholder="Tìm kiếm" aria-label="Search">
                 <button class="btn btn-sidebar">
                     <i class="fas fa-search fa-fw"></i>
                 </button>
@@ -31,7 +30,7 @@
                             <th>Ghi chú</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="list-view">
                         @foreach ($poly as $key => $ddanh)
                             <tr id="list-non">
                                 <td>{{ $key + 1 }}</td>
@@ -60,7 +59,7 @@
 
                     <div class="logo">
                         <img id="logo" style="width: 80px; height: 80px;"
-                            src="{{ asset('img/istockphoto-1251643808-1024x1024.jpg') }}" alt="">
+                            src="{{ asset('img/Logo_tỉnh_Tiền_Giang.png') }}" alt="">
                     </div>
 
                     <div class="show-checkbox">
@@ -156,6 +155,7 @@
         ' <button class="tablinks" onclick="openCity(event, \'video\')">Video</button>'+
             '@endif'+
 
+        ' <a href="{{url('/admin/qlsl/')}}/{{$polyline->madiadiem}}/editlocation"><button class="tablinks" ">Chỉnh Sửa</button></a>'+
         '</div>'+
        '<div id="ttc" style="display: block" class="tabcontent">'+
        '<table>'+
@@ -242,13 +242,7 @@
             }).addTo(map).bindPopup($popupContent);
 
             polylines.push(_polyline);
-            polylines.forEach(polyline => {
-                let toggle = $('#polyline')[0];
-                toggle.checked = true;
-                    toggle.addEventListener('click', function() {
-                        polyline.setStyle({opacity: toggle.checked ? 1 : 0});
-            }); 
-            }) 
+           
         @endforeach
 
     </script>

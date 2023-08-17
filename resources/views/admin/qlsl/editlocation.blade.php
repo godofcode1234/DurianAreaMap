@@ -21,14 +21,14 @@
                         <input style="display: none;" id="madiadiem" name="madiadiem" type="text" class="form-control"
                             placeholder=" " value="{{ $edit[0]->madiadiem }}" required>
                         @php
-                            $xacu = $xacu[0];
-                            $maXaCu = $xacu->maxa;
+                            $x = $xa[0];
+                            $h = $huyen[0];
                         @endphp
                         <div class="form-group">
                             <label for="exampleInputtext1">Huyện</label>
-                            <select id="huyen" class="form-control" name="huyen" data-xa-cu="{{ $maXaCu }}">
+                            <select id="huyen" class="form-control" name="huyen" >
                                 @foreach ($huyen as $huyen)
-                                    <option value="{{ $huyen->mahuyen }}" @if ($huyen->mahuyen == $xacu->mahuyen) selected @endif>
+                                    <option value="{{ $huyen->mahuyen }}" @if ($huyen->mahuyen == $edit[0]->mahuyen) selected @endif>
                                         {{ $huyen->tenhuyen }}</option>
                                 @endforeach
                             </select>
@@ -36,7 +36,9 @@
                         <div class="form-group">
                             <label for="exampleInputtext1">Xã</label>
                             <select id="xa" class="form-control" name="maxa">
-                                <option value="{{ $edit[0]->maxa }}" @if ($edit[0]->maxa == $maXaCu) selected @endif>{{ $edit[0]->tenxa}}</option>
+                                @foreach ($xa as $xa)
+                                    <option value="{{ $xa->maxa }}" @if ($edit[0]->maxa == $xa->maxa) selected @endif>{{ $xa->tenxa}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">

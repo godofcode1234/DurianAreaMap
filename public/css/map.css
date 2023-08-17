@@ -81,7 +81,8 @@ button {
 
 #back {
     position: absolute;
-    top: 20%;
+    top: 12%;
+    right: 65%;
     width: 30px;
     height: 30px;
 }
@@ -101,8 +102,13 @@ h3 {
     font-weight: bold;
 }
 
-#list {
-    display: none;
+.flex-center{
+    display: flex;
+}
+
+
+.flex-center>h3{
+    margin-right: 300px;
 }
 
 #logo {
@@ -135,7 +141,7 @@ label {
     z-index: 2;
     right: 0;
     left: 90%;
-    bottom: 20%;
+    bottom: 5%;
     border-radius: 3px;
 }
 
