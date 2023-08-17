@@ -65,28 +65,22 @@ Sửa thông tin tài khoản
                             <label for="sex"
                                 class="col-md-4 col-form-label text-md-right">{{ __('Giới tính') }}</label>
                             <div class="col-md-6">
-                                
+
                                 <div class="form-check-inline">
                                     <label class="form-check-label" for="nam">
                                         <input type="radio" class="form-check-input" id="radio1" name="sex"
-                                            value="0"
-                                            @if ($getUserById[0]->gioitinh === 0)
-                                               {{'checked'}}
-                                            @endif
-                                            >Nam
-                                    </label>    
+                                            value="0" 
+                                            @if ($getUserById[0]->gioitinh == 0) checked="checked" @endif>Nam
+                                    </label>
                                 </div>
 
                                 <div class="form-check-inline">
-                                <label class="form-check-label" for="nu">
-                                    <input type="radio" class="form-check-input" id="radio2" name="sex" 
-                                        value="1"
-                                        @if ($getUserById[0]->gioitinh === 1)
-                                            {{'checked'}}
-                                        @endif>Nữ
+                                    <label class="form-check-label" for="nu">
+                                        <input type="radio" class="form-check-input" id="radio2" name="sex"
+                                            value="1" @if ($getUserById[0]->gioitinh == 1) checked="checked" @endif>Nữ
                                     </label>
                                 </div>
-                                
+
                             </div>
                         </div>
 

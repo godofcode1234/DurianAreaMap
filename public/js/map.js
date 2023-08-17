@@ -36,7 +36,7 @@ function showTable() {
     if (input.value === '') {
         table.style.display = "none"; // Ẩn bảng nếu không có gõ gì
     } else {
-        
+
         table.style.display = "block"; // Hiển thị bảng nếu có gõ
     }
 }
@@ -151,14 +151,14 @@ fetch('/Geojson/xa.geojson')
 
 
 
-  $(document).ready(function() {
+$(document).ready(function () {
     // Bắt sự kiện click vào hàng trong tbody
-    $('tbody tr').click(function() {
-         var laytextpolyline = $(this).find('td:eq(4)').text();
-         var doitextthanhjson = JSON.parse(laytextpolyline);
-       
-         var vitripolyline = L.polyline(doitextthanhjson, {color: 'red'}).addTo(map);
-         map.fitBounds(vitripolyline.getBounds());
+    $('tbody tr').click(function () {
+        var laytextpolyline = $(this).find('td:eq(4)').text();
+        var doitextthanhjson = JSON.parse(laytextpolyline);
+
+        var vitripolyline = L.polyline(doitextthanhjson, { color: 'red' }).addTo(map);
+        map.fitBounds(vitripolyline.getBounds());
     });
 });
 
@@ -167,16 +167,15 @@ function openCity(evt, cityName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
+        tabcontent[i].style.display = "none";
     }
     tablinks = document.getElementsByClassName("tablinks");
     for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" active", "");
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
     document.getElementById(cityName).style.display = "block";
     evt.currentTarget.className += " active";
-  }
+}
 
 
 
-  

@@ -100,7 +100,7 @@
                 <div class="leaflet-right-top">
 
                     <div class="logo">
-                        <img id="logo" style="width: 80px; height: 80px; top: 7 %"
+                        <img id="logo" style="width: 80px; height: 80px; top: 7%"
                             src="{{ asset('img/istockphoto-1251643808-1024x1024.jpg') }}" alt="">
                     </div>
 
@@ -114,13 +114,7 @@
 
                             <div>
                                 <label for="">
-                                    <input type="checkbox" value=""> Cảnh báo
-                                </label>
-                            </div>
-
-                            <div>
-                                <label for="">
-                                    <input type="checkbox" value=""> Sạt lở
+                                    <input id="polyline" type="checkbox" value=""> Sạt lở
                                 </label>
                             </div>
                             <div>
@@ -163,7 +157,7 @@
     <script src="{{ asset('js/map.js') }}">
     </script>
     <script>
-
+        var polylines = [];
         @foreach ($diadanh as $polyline)
             @php
                 $hinhanh = DB::select("SELECT * FROM hinhanh WHERE madiadiem =".$polyline->madiadiem);
@@ -283,9 +277,18 @@
    '</div>'
 '</div>';
 
-            L.polyline(coordinates, {
+            var _polyline = L.polyline(coordinates, {
                 color: 'red'
             }).addTo(map).bindPopup($popupContent);
+
+            polylines.push(_polyline);
+            polylines.forEach(polyline => {
+                let toggle = $('#polyline')[0];
+                toggle.checked = true;
+                    toggle.addEventListener('click', function() {
+                        polyline.setStyle({opacity: toggle.checked ? 1 : 0});
+            }); 
+            }) 
         @endforeach
 
     </script>

@@ -73,18 +73,12 @@
 
                             <div>
                                 <label for="">
-                                    <input type="checkbox" value=""> Cảnh báo
-                                </label>
-                            </div>
-
-                            <div>
-                                <label for="">
-                                    <input type="checkbox" value=""> Sạt lở
+                                    <input id="polyline" type="checkbox" value=""> Sạt lở
                                 </label>
                             </div>
                             <div>
                                 <label for="">
-                                    <input id="huyen" type="checkbox" value=""> Huyện
+                                    <input id="huyen" type="checkbox" value="" > Huyện
                                 </label>
                             </div>
                             <div>
@@ -121,8 +115,9 @@
     </body>
     <script src="{{ asset('js/map.js') }}"></script>
     <script>
-
+        var polylines = [];
         @foreach ($poly as $polyline)
+
             @php
                 $hinhanh = DB::select("SELECT * FROM hinhanh WHERE madiadiem =".$polyline->madiadiem);
                 $video = DB::select("SELECT * FROM video WHERE madiadiem =".$polyline->madiadiem);
@@ -145,6 +140,7 @@
                 @endphp
             @endif
             @endforeach
+
             var coordinates = {{ $polyline->shape }};
 
             $popupContent = '<div class="tab">'+
@@ -240,10 +236,20 @@
        '</table>'+
    '</div>'
 '</div>';
-
-            L.polyline(coordinates, {
+            
+            var _polyline = L.polyline(coordinates, {
                 color: 'red'
             }).addTo(map).bindPopup($popupContent);
+
+            polylines.push(_polyline);
+            polylines.forEach(polyline => {
+                let toggle = $('#polyline')[0];
+                toggle.checked = true;
+                    toggle.addEventListener('click', function() {
+                        polyline.setStyle({opacity: toggle.checked ? 1 : 0});
+            }); 
+            }) 
         @endforeach
+
     </script>
 @endsection
