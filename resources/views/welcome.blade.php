@@ -91,8 +91,7 @@
         <div id="main" style="margin-left:30%;">
             <div class="w3-container">
 
-
-                <button id="back" class="w3-button w3-teal w3-xlarge"><i class="fa-solid fa-house fa-2xs"></i></button>
+                <button style="display: none" id="back" class="w3-button w3-teal w3-xlarge"><i class="fa-solid fa-house fa-2xs"></i></button>
                 <button id="closeNav" class="w3-button w3-teal w3-xlarge" onclick="w3_close()"><i
                         class="fa-solid fa-chevron-left"></i></button>
                 <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()" style="display: none;"><i
@@ -101,7 +100,7 @@
                 <div class="leaflet-right-top">
 
                     <div class="logo">
-                        <img id="logo" style="width: 80px; height: 80px;"
+                        <img id="logo" style="width: 80px; height: 80px; top: 7 %"
                             src="{{ asset('img/istockphoto-1251643808-1024x1024.jpg') }}" alt="">
                     </div>
 
@@ -161,24 +160,48 @@
             </div>
         </div>
     </body>
-    <script src="{{ asset('js/map.js') }}"></script>
+    <script src="{{ asset('js/map.js') }}">
+    </script>
     <script>
 
         @foreach ($diadanh as $polyline)
             @php
                 $hinhanh = DB::select("SELECT * FROM hinhanh WHERE madiadiem =".$polyline->madiadiem);
+                $video = DB::select("SELECT * FROM video WHERE madiadiem =".$polyline->madiadiem);
+                $hasImage = false;
+                $hasVideo = false;
+
             @endphp
+            @foreach($hinhanh as $hinh)
+                @if($hinh->hinhanh)
+                    @php
+                    $hasImage = true; 
+                    @endphp
+                @endif
+            @endforeach
+
+            @foreach($video as $media)
+            @if($media->video)
+                @php
+                $hasVideo = true; 
+                @endphp
+            @endif
+            @endforeach
             var coordinates = {{ $polyline->shape }};
-           
+
             $popupContent = '<div class="tab">'+
         
         ' <button class="tablinks active"  onclick="openCity(event, \'ttc\')">Thông tin chung</button>'+
-            '@if($polyline->hinhanh)'+
+
+            '@if($hasImage)'+
         '  <button class="tablinks" onclick="openCity(event, \'ha\')">Hình ảnh</button>'+
            '@endif'+
-           '@if($polyline->video) '+
-        '  <button class="tablinks" onclick="openCity(event, \'video\')">Video</button>'+
+           
+
+           '@if($hasVideo) '+
+        ' <button class="tablinks" onclick="openCity(event, \'video\')">Video</button>'+
             '@endif'+
+
         '</div>'+
        '<div id="ttc" style="display: block" class="tabcontent">'+
        '<table>'+
@@ -247,7 +270,9 @@
                    '</tr>'+
                    '<tr>'+
                        '<th> Video </th>'+
-                       '<td> <iframe width="294px" height="auto" src="{{ $polyline->video}}" ></iframe> </td>'+
+                       '@foreach($video as $item)'+
+                       '<td> <iframe width="294px" height="auto" src="{{ $item->video}}" ></iframe> </td>'+
+                       '@endforeach'+
                    '</tr>'+
                    '<tr>'+
                        '<th> Mô tả </th>'+
@@ -262,5 +287,6 @@
                 color: 'red'
             }).addTo(map).bindPopup($popupContent);
         @endforeach
+
     </script>
 @endsection

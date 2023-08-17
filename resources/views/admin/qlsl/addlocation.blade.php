@@ -11,15 +11,24 @@
     <section class="col-lg connectedSortable ui-sortable">
         <div class="element">
             <div class="card card-primary">
-                <form id="myForm" action="{{ url('/admin/qlsl/addlocation') }}" method="POST"  enctype="multipart/form-data">
+                <form id="myForm" action="{{ url('/admin/qlsl/addlocation') }}" method="POST" enctype="multipart/form-data">
                     <div class="card-body">
                         <input type="hidden" id="_token" name="_token" value="{!! csrf_token() !!}" />
                         <input style="display: none;" id="maxa" name="maxa" type="text" class="form-control"
                             placeholder=" " required>
                         <div class="form-group">
+                            <label for="exampleInputtext1">Huyện</label>
+                            <select id="huyen" class="form-control" name="huyen">
+                                @foreach ($huyen as $huyen)
+                                    <option value="{{ $huyen->mahuyen }}">{{ $huyen->tenhuyen }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="exampleInputtext1">Xã</label>
-                            <input type="text" id="tenxa" name="tenxa" class="form-control" placeholder=" "
-                                required>
+                            <select id="xa" class="form-control" name="maxa">
+                                <option value="">Chọn xã</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputtext1">Điểm cảnh báo</label>
@@ -49,14 +58,14 @@
                             <label for="exampleInputtext1">Đường link video</label>
 
                             <input id="video" name="video" type="text" class="form-control" id="exampleInputtext1"
-                                value="" >
+                                value="">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputtext1">Hình ảnh</label>
 
-                        <input id="hinhanh" name="hinhanh[]" type="file" class="form-control" id="exampleInputtext1" value=""
-                        multiple >
+                        <input id="hinhanh" name="hinhanh[]" type="file" class="form-control" id="exampleInputtext1"
+                            value="" multiple>
                     </div>
 
             </div>
@@ -76,4 +85,23 @@
         </div>
     </section>
     <script src="{{ asset('js/location.js') }}"></script>
+    <script>
+        $('#huyen').on('change', function() {
+
+            let mahuyen = $(this).val();
+
+            $.get('/admin/qlsl/addlocation/' + mahuyen, function(data) {
+
+                let html = '';
+
+                data.forEach(function(xa) {
+                    html += `<option value="${xa.maxa}">${xa.tenxa}</option>`
+                });
+
+                $('#xa').html(html);
+
+            })
+
+        })
+    </script>
 @endsection

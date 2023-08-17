@@ -13,6 +13,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 
+
 class QuanLySatLoController extends Controller
 {
     public function __construct()
@@ -30,12 +31,21 @@ class QuanLySatLoController extends Controller
 
     public function shape()
     {
+        $getData = DB::table('huyen')->get();
+        $Data = DB::table('xa')->get();
+        return view('admin.qlsl.addlocation')->with('huyen',$getData)->with('xa',$Data);
+    }
 
-        return view('admin.qlsl.addlocation');
+    public function getxa($mahuyen)
+    {
+       
+        $xa = DB::table('xa')->where('mahuyen',$mahuyen)->get();
+        return response()->json($xa);
     }
 
     public function insertlocation(Request $request)
     {
+
         $maxa = $request->maxa;
         $diemcanhbao = $request->diemcanhbao;
         $dodai = $request->dodai;
@@ -122,13 +132,18 @@ class QuanLySatLoController extends Controller
 
     public function editLocation($madiadiem)
     {
+        $location = DB::select('SELECT * FROM diadiemsatlo WHERE madiadiem = ?', [$madiadiem]);
+
+        $xacu = DB::select('SELECT * FROM xa WHERE maxa = ?', [$location[0]->maxa]);
+
+        $huyen = DB::table('huyen')->get();
 
         $hinhanhvideo = DB::table('diadiemsatlo')->selectRaw('DISTINCT hinhanh.hinhanh, video.video')->join('hinhanh', 'diadiemsatlo.madiadiem', '=', 'hinhanh.madiadiem')
             ->join('video', 'diadiemsatlo.madiadiem', '=', 'video.madiadiem')
             ->where('diadiemsatlo.madiadiem', $madiadiem)->get();
         $getData = DB::table('diadiemsatlo')->join('xa', 'diadiemsatlo.maxa', '=', 'xa.maxa')
             ->select('diadiemsatlo.maxa', 'xa.tenxa', 'diemcanhbao', 'mota', 'ghichu', 'dodai', 'shape', 'madiadiem')->where('madiadiem', $madiadiem)->get();
-        return view('admin.qlsl.editlocation')->with('edit', $getData)->with('hinh_video', $hinhanhvideo);
+        return view('admin.qlsl.editlocation',compact('location', 'xacu'))->with('edit', $getData)->with('hinh_video', $hinhanhvideo)->with('huyen', $huyen);
     }
 
     public function updateLocation(Request $request)

@@ -55,6 +55,7 @@ Route::get('/admin/commune', 'CommuneController@list');
 // Route của QLSL
 Route::get('/location', 'QuanLySatLoController@location' )->name('location');
 Route::get('/admin/qlsl/addlocation', 'QuanLySatLoController@shape');
+Route::get('/admin/qlsl/addlocation/{mahuyen}', 'QuanLySatLoController@getxa');
 Route::post('/admin/qlsl/addlocation', 'QuanLySatLoController@insertlocation');
 Route::get('/admin/qlsl/{madiadiem}/editlocation', 'QuanLySatLoController@editLocation');
 Route::post('/admin/qlsl/updatelocation', 'QuanLySatLoController@updateLocation');

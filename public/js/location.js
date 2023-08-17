@@ -74,10 +74,7 @@ fetch('/Geojson/xa.geojson')
         xaGeojsonLayer = L.geoJSON(data, {
             onEachFeature: function(feature, layer) {
                 layer.on('click', function() {
-                    var MaPhuongXa = feature.properties.MaPhuongXa;
-                    var TenPhuongXa = feature.properties.TenPhuongXa;
-                    tenXa.value = TenPhuongXa;
-                    maXa.value = MaPhuongXa;  
+                      
                 });
             }
         });
@@ -92,3 +89,5 @@ fetch('/Geojson/xa.geojson')
 document.getElementById("myButton").addEventListener("click", function(){ 
     document.getElementById("myForm").submit(); 
 });
+
+

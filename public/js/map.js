@@ -36,6 +36,7 @@ function showTable() {
     if (input.value === '') {
         table.style.display = "none"; // Ẩn bảng nếu không có gõ gì
     } else {
+        
         table.style.display = "block"; // Hiển thị bảng nếu có gõ
     }
 }
@@ -147,8 +148,6 @@ fetch('/Geojson/xa.geojson')
         });
     });
 // End Geojson checkbox Xa  
-
-
 
 
 
