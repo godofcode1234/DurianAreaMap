@@ -103,7 +103,7 @@ h3 {
     font-weight: bold;
 }
 
-.flex-center{
+.flex-center {
     display: flex;
 }
 
@@ -184,64 +184,64 @@ span {
 }
 
 .leaflet-popup-content {
-    width:auto !important;    
-    }
-  
-    .tab {
+    width: auto !important;
+}
+
+.tab {
     overflow: hidden;
-    
-  }
-  
-  /* Style the buttons inside the tab */
-  .tab button {
+
+}
+
+/* Style the buttons inside the tab */
+.tab button {
     background-color: inherit;
     float: left;
     border: none;
     outline: none;
     cursor: pointer;
-   
+
     transition: 0.3s;
     font-size: 15px;
-  }
-  
-  /* Change background color of buttons on hover */
-  .tab button:hover {
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
     background-color: #ddd;
-  }
-  
-  /* Create an active/current tablink class */
-  .tab button.active {
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
     background-color: #ccc;
-  }
-  
-  /* Style the tab content */
-  .tabcontent {
+}
+
+/* Style the tab content */
+.tabcontent {
     display: none;
     border: 1px solid #ccc;
     border-top: none;
     width: 410px;
     height: 329px;
     font-size: 12px;
-  }
- 
-  .tabcontent table{
+}
+
+.tabcontent table {
     width: 410px !important;
     height: 300px;
-  }
+}
 
-  .tabcontent th{
+.tabcontent th {
     width: 100px;
-  }
+}
 
-  .tabcontent tr{
-    height: 20px ;
-  }
+.tabcontent tr {
+    height: 20px;
+}
 
-  .carousel-item>img{
+.carousel-item>img {
     cursor: pointer;
-  }
+}
 
-  #image-dialog {
+#image-dialog {
     display: none;
     position: fixed;
     top: 0;
@@ -251,12 +251,57 @@ span {
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 9999;
     text-align: center;
-  }
-  
-  #zoomed-image-dialog {
+}
+
+#zoomed-image-dialog {
     max-width: 90%;
     max-height: 90%;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-  }
+}
+
+.img-button {
+    position: absolute;
+    top: 20%;
+    display: block;
+}
+
+#next {
+    color: white;
+    height: 425px;
+    width: 150px;
+    left: 238%;
+    opacity: 0;
+    border: 0px;
+    background-color: rgba(0, 0, 0, 0);
+    transition: opacity 0.6s;
+
+}
+
+#prev {
+    color: white;
+    height: 425px;
+    width: 150px;
+    left: 145%;
+    opacity: 0;
+    border: 0px;
+    background-color: rgba(0, 0, 0, 0);
+    transition: opacity 0.6s;
+}
+
+#next:hover, #prev:hover {
+    color: white;
+    opacity: 1;
+    font-size: 30px;
+}
+
+#next:hover>i, #prev:hover>i{
+    opacity: 0.6;
+}
+
+#exit{
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    border: 0;
+}

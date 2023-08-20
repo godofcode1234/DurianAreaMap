@@ -112,10 +112,12 @@
                 </div>
 
                 <div id="image-dialog" title="Ảnh phóng to">
-                    <button onclick="prevImage()" id="prev">Prev</button>
-                    <button onclick="closeImageDialog()" style="position: absolute; top: 10px; right: 10px;">X</button>
                     <img id="zoomed-image-dialog" src="" style="width: 600px; height: 419px;">
-                    <button onclick="nextImage()" id="next">Next</button>
+                    <div class="img-button">
+                        <button onclick="prevImage()" id="prev"><i class="fa-solid fa-angle-left"></i></button>
+                        <button onclick="nextImage()" id="next"><i class="fa-solid fa-angle-right"></i></button>
+                        <button onclick="closeImageDialog()" id="exit" style="position: absolute; right: -245%;"><i class="fa-solid fa-x"></i></button>
+                    </div>
                 </div>
 
             </div>
