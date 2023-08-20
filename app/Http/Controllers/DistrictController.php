@@ -36,6 +36,13 @@ class DistrictController extends Controller
         $lateId = DB::table('huyen')->select('id')->orderBy('id', 'desc')->limit(1)->first();
 		$id = $lateId->id;
         $id += 1;
+		
+		$existingHuyen = DB::table('huyen')->where('mahuyen', $request->mahuyen)->first();
+
+		if ($existingHuyen) {
+			Toastr::error('Mã huyện đã tồn tại', 'Lỗi');
+			return redirect()->back();
+		}
             //Thực hiện câu lệnh insert
             $insertData = DB::table('huyen')->insert([
 				'id' => $id,
@@ -82,7 +89,7 @@ class DistrictController extends Controller
 		}
 		
 		//Thực hiện chuyển trang
-		return redirect('/admin/district');
+		return redirect()->back(); 
 	}
 
     public function destroy($mahuyen)
@@ -98,6 +105,6 @@ class DistrictController extends Controller
 		}
 		
 		//Thực hiện chuyển trang
-		return redirect('/admin/district');
+		return redirect()->back(); 
 	}
 }

@@ -48,13 +48,9 @@ Thêm tài khoản
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Mật Khẩu') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="Nhập mật khẩu..." required>
+                                <input id="password" type="password" class="form-control" name="password" placeholder="Nhập mật khẩu..." required>
 
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
+                               
                             </div>
                         </div>
 
@@ -62,7 +58,12 @@ Thêm tài khoản
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Xác Nhận Lại Mật Khẩu') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Nhập lại mật khẩu..." required>
+                                <input id="password-confirm" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password_confirmation" placeholder="Nhập lại mật khẩu..." required>
+                                @if ($errors->has('password'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{__('Mật khẩu không trùng khớp') }}</strong>
+                                </span>
+                            @endif
                             </div>
                         </div>
                         <div class="form-group row mb-0" style="display: flex;flex-direction: row-reverse;">

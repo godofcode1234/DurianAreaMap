@@ -14,12 +14,11 @@
 }
 
 .switch {
-    position: absolute;
+    position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
-    z-index: 2;
-    top: 84%;
+    margin-left: 20px;
 }
 
 .switch input {

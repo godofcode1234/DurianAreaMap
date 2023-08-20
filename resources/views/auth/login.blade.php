@@ -60,13 +60,7 @@
                                     {{ __('Đăng Nhập') }}
                                 </button>
 
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Quên mật khẩu?') }}
-                                    </a>
-                                @endif
-
-                                    <a class="btn btn-primary" href="{{url('/')}}" style="margin-left: 30px">
+                                    <a class="btn btn-back" href="{{url('/')}}" style="margin-left: 30px">
                                         {{__('Huỷ')}}
                                     </a>
                             </div>

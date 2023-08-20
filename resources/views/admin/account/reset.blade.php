@@ -56,7 +56,7 @@
                                     {{ __('Lưu') }}
                                 </button>
                             </div>
-                            <p><a class="btn btn-back" href="{{ url()->previous() }}">Quay lại</a></p>
+                            <p><a class="btn btn-back" href="{{ url('/admin/account/profile') }}">Quay lại</a></p>
                         </div>
                         </div>
                     </form>

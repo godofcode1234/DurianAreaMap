@@ -21,7 +21,7 @@ Sửa thông tin tài khoản
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Tên Đăng Nhập') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ $getUserById[0]->name }}" required autofocus>
+                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ $getUserById[0]->name }}" readonly>
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback" role="alert">
@@ -90,7 +90,7 @@ Sửa thông tin tài khoản
                             <div class="col-md-6">
                                 <input id="brithday" type="date"
                                     class="form-control{{ $errors->has('brithday') ? ' is-invalid' : '' }}"
-                                    name="brithday" value="{{ $getUserById[0]->ngaysinh }}" required>
+                                    name="brithday" value="{{ $getUserById[0]->ngaysinh }}" >
 
                                 @if ($errors->has('brithday'))
                                     <span class="invalid-feedback" role="alert">
@@ -106,7 +106,7 @@ Sửa thông tin tài khoản
                             <div class="col-md-6">
                                 <input id="address" type="text"
                                     class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}"
-                                    name="address" value="{{ $getUserById[0]->diachi }}" required>
+                                    name="address" value="{{ $getUserById[0]->diachi }}" >
 
                                 @if ($errors->has('address'))
                                     <span class="invalid-feedback" role="alert">

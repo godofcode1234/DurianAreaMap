@@ -5,56 +5,6 @@
     </head>
 
     <body>
-        <div class="flex-center position-ref full-height">
-            <h3>Hệ Thống Quản lý Sạt Lở</h3>
-            
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <div class="right-info">
-                            <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }} <span class="caret"></span>
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('profile') }}"
-                                    onclick="event.preventDefault();
-                                document.getElementById('info').submit();">
-                                    {{ __('Thông Tin Cá Nhân') }}
-                                </a>
-
-                                <a class="dropdown-item" href="{{ route('home') }}"
-                                    onclick="event.preventDefault();
-                                document.getElementById('home').submit();">
-                                    {{ __('Quản lý sạt lở') }}
-                                </a>
-
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                             document.getElementById('logout-form').submit();">
-                                    {{ __('Đăng Xuất') }}
-                                </a>
-                                <form id="info" action="{{ route('profile') }}" method="GET" style="display: none;">
-                                    @csrf
-                                </form>
-                                <form id="home" action="{{ route('home') }}" method="GET" style="display: none;">
-                                    @csrf
-                                </form>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            </div>
-                        </div>
-                    @else
-                        <a href="{{ route('login') }}">Đăng Nhập</a>
-
-                    @endauth
-                </div>
-            @endif
-        </div>
-
         <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:block;width:30%" id="mySidebar">
             <h3>DANH SÁCH CÁC ĐIỂM SẠT LỞ</h3>
             <div class="search">
@@ -92,7 +42,55 @@
 
         <div id="main" style="margin-left:30%;">
             <div class="w3-container">
+                <div class="flex-center position-ref full-height"> 
+                    @if (Route::has('login'))
+                        <div class="top-right links" style="font-weight: bold;">
+                            @auth
+                                <div class="right-info">
+                                    <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        {{ Auth::user()->name }} <span class="caret"></span>
+                                    </a>
+        
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ route('profile') }}"
+                                            onclick="event.preventDefault();
+                                        document.getElementById('info').submit();">
+                                            {{ __('Thông Tin Cá Nhân') }}
+                                        </a>
+        
+                                        <a class="dropdown-item" href="{{ route('home') }}"
+                                            onclick="event.preventDefault();
+                                        document.getElementById('home').submit();">
+                                            {{ __('Quản lý sạt lở') }}
+                                        </a>
+        
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                                            {{ __('Đăng Xuất') }}
+                                        </a>
+                                        <form id="info" action="{{ route('profile') }}" method="GET" style="display: none;">
+                                            @csrf
+                                        </form>
+                                        <form id="home" action="{{ route('home') }}" method="GET" style="display: none;">
+                                            @csrf
+                                        </form>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </div>
+                                </div>
+                            @else
+                                <a href="{{ route('login') }}">Đăng Nhập</a>
+        
+                            @endauth
+                        </div>
+                    @endif
+                </div>
 
+                <h3 id="tieude">HỆ THỐNG QUẢN LÝ ĐỊA ĐIỂM SẠT LỞ</h3>
                 <button style="display: none" id="back" class="w3-button w3-teal w3-xlarge"><i class="fa-solid fa-house fa-2xs"></i></button>
                 <button id="closeNav" class="w3-button w3-teal w3-xlarge" onclick="w3_close()"><i
                         class="fa-solid fa-chevron-left"></i></button>
@@ -136,7 +134,7 @@
                     <select name="basemaps" id="basemaps" onchange="changeBasemap(basemaps)">
                         <option value="Defaul">Bản đồ gốc</option>
                         <option value="Streets">Bản đồ đường</option>
-                        <option value="Sat">Bản đồ vệ tinh</option>
+                        <option value="satellite">Bản đồ vệ tinh</option>
                     </select>
                 </div>
 
@@ -160,6 +158,7 @@
     </script>
     <script>
         var polylines = [];
+
         @foreach ($diadanh as $polyline)
             @php
                 $hinhanh = DB::select("SELECT * FROM hinhanh WHERE madiadiem =".$polyline->madiadiem);
@@ -284,10 +283,10 @@
             }).addTo(map).bindPopup($popupContent);
 
             polylines.push(_polyline);
-
         @endforeach
 
-    polylines.forEach(polyline => {
+
+        polylines.forEach(polyline => {
     let toggle = $('#polyline')[0];
     toggle.checked = true;
         toggle.addEventListener('click', function() {
@@ -295,5 +294,75 @@
 }); 
 }) 
 
+    </script>
+    <script>
+var originalPolylines = [];
+
+// Hàm khởi tạo các polyline ban đầu
+function initPolylines() {
+
+  // Code khởi tạo các polyline 
+ 
+  originalPolylines = polylines;
+
+  // Lưu popup vào thuộc tính popup của mỗi polyline
+  originalPolylines.forEach(function(polyline) {
+    polyline.popup = $popupContent; 
+    
+  });
+
+  // Vẽ các polyline lên bản đồ
+  originalPolylines.forEach(function(polyline){
+    console.log(polyline);
+    polyline.addTo(map); 
+  });
+}
+
+function redrawPolylines() {
+
+    // Xóa các polyline cũ
+    map.eachLayer(function(layer) {
+      if (layer instanceof L.Polyline) {
+        map.removeLayer(layer);
+      }
+    }); 
+  
+    // Vẽ lại từ mảng ban đầu
+    originalPolylines.forEach(function(polyline) {
+      polyline.addTo(map)
+        .bindPopup(polyline.popup);
+    });
+  }
+//Thay đổi bản đồ
+function changeBasemap(basemaps) {
+    var selectedBasemap = basemaps.value;
+    var mapUrl;
+
+    switch (selectedBasemap) {
+        case 'Streets':
+            mapUrl = 'http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}';
+           
+            break;
+        case 'satellite':
+            mapUrl = 'http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}';
+            
+            break;
+        default:
+            mapUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+           
+            break;
+    }
+
+    // Xóa bản đồ hiện tại và tạo bản đồ mới với URL tương ứng
+    map.eachLayer(function (layer) {
+        map.removeLayer(layer);
+    });
+
+    L.tileLayer(mapUrl, {
+            subdomains:['mt0','mt1','mt2','mt3']       
+    }).addTo(map);
+    redrawPolylines();
+}
+initPolylines();
     </script>
 @endsection

@@ -54,7 +54,7 @@ Sửa thông tin
                                     {{ __('Lưu') }}
                                 </button>
                             </div>
-                            <p><a class="btn btn-back" href="{{ url()->previous() }}">Quay lại</a></p>
+                            <p><a class="btn btn-back" href="{{ url('/admin/district') }}">Quay lại</a></p>
                         </div>
                     </form>
                 </div>

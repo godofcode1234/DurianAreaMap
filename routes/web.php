@@ -60,7 +60,8 @@ Route::post('/admin/qlsl/addlocation', 'QuanLySatLoController@insertlocation');
 Route::get('/admin/qlsl/{madiadiem}/editlocation', 'QuanLySatLoController@editLocation')->name('editlocation');
 Route::post('/admin/qlsl/updatelocation', 'QuanLySatLoController@updateLocation');
 Route::get('/admin/qlsl/{madiadiem}/delete', 'QuanLySatLoController@destroy');
-
+Route::get('/admin/qlsl/{madiadiem}/image','QuanLySatLoController@image');
+Route::get('/admin/qlsl/{id}/imagedelete','QuanLySatLoController@imageDelete');
 
 Route::get('/admin/map', 'MapController@map')->name('map');
 Route::get('/admin/map', 'MapController@loadPolyline');

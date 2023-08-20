@@ -35,6 +35,19 @@ class AdminController extends Controller
 
 	public function add(Request $request)
 	{
+		// Kiểm tra xem email đã tồn tại trong cơ sở dữ liệu chưa
+		$existingUser = DB::table('users')->where('email', $request->email)->first();
+
+		if ($existingUser) {
+			Toastr::error('Email đã tồn tại', 'Lỗi');
+			return redirect()->back();
+		}
+
+		$validatedData = $request->validate([
+            'password' => 'required|confirmed',
+            'password_confirmation' => ['required', 'password_match:password'],
+          ]);
+
 		//Thực hiện câu lệnh insert
 		$insertData = DB::table('users')->insert([
 			'name' => $request->name,
@@ -64,7 +77,12 @@ class AdminController extends Controller
 
 	public function update(Request $request)
 	{
-		//Cap nhat user
+		$existingUser = DB::table('users')->where('email', $request->email)->where('id', '!=', $request->id)->first();
+
+		if ($existingUser) {
+			Toastr::error('Email đã tồn tại', 'Lỗi');
+			return redirect()->back();
+		}
 
 		//Thực hiện câu lệnh update với các giá trị $request trả về
 		$updateData = DB::table('users')->where('id', $request->id)->update([

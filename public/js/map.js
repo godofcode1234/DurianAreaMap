@@ -6,34 +6,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 //End map
 
-//Thay đổi bản đồ
-function changeBasemap(basemaps) {
-    var selectedBasemap = basemaps.value;
-    var mapUrl;
 
-    switch (selectedBasemap) {
-        case 'Streets':
-            mapUrl = 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
-            break;
-        case 'Sat':
-            mapUrl = 'http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
-            break;
-        default:
-            mapUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-            break;
-    }
-
-    // Xóa bản đồ hiện tại và tạo bản đồ mới với URL tương ứng
-    map.eachLayer(function (layer) {
-        map.removeLayer(layer);
-    });
-
-    L.tileLayer(mapUrl, {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        subdomains:['mt0','mt1','mt2','mt3']
-    }).addTo(map);
-}
-//End Thay đổi bản đồ
 
 //Các nút trên map
 function w3_open() {
@@ -161,7 +134,7 @@ $(document).ready(function () {
     $('tbody tr').click(function () {
         var laytextpolyline = $(this).find('td:eq(4)').text();
         var doitextthanhjson = JSON.parse(laytextpolyline);
-        var vitripolyline = L.polyline(doitextthanhjson, { color: 'red' }).addTo(map);
+        var vitripolyline = L.polyline(doitextthanhjson, { color: 'red' });
         map.fitBounds(vitripolyline.getBounds());
     });
 });

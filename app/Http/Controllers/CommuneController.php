@@ -44,6 +44,12 @@ class CommuneController extends Controller
 		$id = $lateId->id;
 		$id += 1;
 
+		$existingXa = DB::table('xa')->where('maxa', $request->maxa)->first();
+
+		if ($existingXa) {
+			Toastr::error('Mã huyện đã tồn tại', 'Lỗi');
+			return redirect()->back();
+		}
 		//Thực hiện câu lệnh insert
 		$insertData = DB::table('xa')->insert([
 			'id' => $id,
@@ -91,7 +97,7 @@ class CommuneController extends Controller
 		}
 
 		//Thực hiện chuyển trang
-		return redirect('/admin/commune');
+		return redirect()->back(); 
 	}
 
 	public function destroy($maxa)
@@ -107,6 +113,6 @@ class CommuneController extends Controller
 		}
 
 		//Thực hiện chuyển trang
-		return redirect('/admin/commune');
+		return redirect()->back(); 
 	}
 }
