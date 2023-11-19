@@ -21,7 +21,7 @@ class AdminController extends Controller
 	public function index()
 	{
 		//Lấy danh sách User từ database
-		$getData = DB::table('users')->select('id', 'name', 'email')->get();
+		$getData = DB::table('can_bo_quan_ly')->select('id', 'name', 'username')->get();
 
 		//Gọi đến file list.blade.php trong thư mục "resources/views/user" với giá trị gửi đi tên listuser = $getData
 		return view('admin.account.list')->with('listuser', $getData);
@@ -35,23 +35,23 @@ class AdminController extends Controller
 
 	public function add(Request $request)
 	{
-		// Kiểm tra xem email đã tồn tại trong cơ sở dữ liệu chưa
-		$existingUser = DB::table('users')->where('email', $request->email)->first();
+		// Kiểm tra xem username đã tồn tại trong cơ sở dữ liệu chưa
+		$existingUser = DB::table('can_bo_quan_ly')->where('username', $request->username)->first();
 
 		if ($existingUser) {
-			Toastr::error('Email đã tồn tại', 'Lỗi');
+			Toastr::error('username đã tồn tại', 'Lỗi');
 			return redirect()->back();
 		}
 
 		$validatedData = $request->validate([
-            'password' => 'required|confirmed',
-            'password_confirmation' => ['required', 'password_match:password'],
-          ]);
+			'password' => 'required|confirmed',
+			'password_confirmation' => ['required', 'password_match:password'],
+		]);
 
 		//Thực hiện câu lệnh insert
-		$insertData = DB::table('users')->insert([
+		$insertData = DB::table('can_bo_quan_ly')->insert([
 			'name' => $request->name,
-			'email' => $request->email,
+			'username' => $request->username,
 			'password' => bcrypt($request->password)
 		]);
 
@@ -69,7 +69,7 @@ class AdminController extends Controller
 	public function edit($id)
 	{
 		//Lấy dữ liệu từ Database với các trường được lấy và với điều kiện id = $id
-		$getData = DB::table('users')->select('id', 'name', 'email','hoten','ngaysinh','gioitinh','diachi')->where('id', $id)->get();
+		$getData = DB::table('can_bo_quan_ly')->select('id', 'name', 'username', 'hoten', 'ngaysinh', 'gioitinh', 'diachi')->where('id', $id)->get();
 
 		//Gọi đến file edit.blade.php trong thư mục "resources/views/user" với giá trị gửi đi tên getUserById = $getData
 		return view('admin.account.edit')->with('getUserById', $getData);
@@ -77,17 +77,17 @@ class AdminController extends Controller
 
 	public function update(Request $request)
 	{
-		$existingUser = DB::table('users')->where('email', $request->email)->where('id', '!=', $request->id)->first();
+		$existingUser = DB::table('can_bo_quan_ly')->where('username', $request->username)->where('id', '!=', $request->id)->first();
 
 		if ($existingUser) {
-			Toastr::error('Email đã tồn tại', 'Lỗi');
+			Toastr::error('username đã tồn tại', 'Lỗi');
 			return redirect()->back();
 		}
 
 		//Thực hiện câu lệnh update với các giá trị $request trả về
-		$updateData = DB::table('users')->where('id', $request->id)->update([
+		$updateData = DB::table('can_bo_quan_ly')->where('id', $request->id)->update([
 			'name' => $request->name,
-			'email' => $request->email,
+			'username' => $request->username,
 			'hoten' => $request->hoten,
 			'ngaysinh' => $request->brithday,
 			'diachi' => $request->address,
@@ -108,7 +108,7 @@ class AdminController extends Controller
 	public function destroy($id)
 	{
 		//Thực hiện câu lệnh xóa với giá trị id = $id trả về
-		$deleteData = DB::table('users')->where('id', '=', $id)->delete();
+		$deleteData = DB::table('can_bo_quan_ly')->where('id', '=', $id)->delete();
 
 		//Kiểm tra lệnh delete để trả về một thông báo
 		if ($deleteData) {
@@ -124,14 +124,14 @@ class AdminController extends Controller
 	public function show()
 	{
 		$userId = Auth::id();
-		$getData = DB::table('users')->select('id', 'name', 'email', 'hoten', 'ngaysinh', 'diachi', 'gioitinh')->where('id', $userId)->get();
+		$getData = DB::table('can_bo_quan_ly')->select('id', 'name', 'username', 'hoten', 'ngaysinh', 'diachi', 'gioitinh')->where('id', $userId)->get();
 		return view('admin.account.profile')->with('getUserById', $getData);
 	}
 
 	public function update_profile(Request $request)
 	{
 		$userId = Auth::id();
-		$updateData = DB::table('users')->where('id', $userId)->update([
+		$updateData = DB::table('can_bo_quan_ly')->where('id', $userId)->update([
 			'hoten' => $request->hoten,
 			'ngaysinh' => $request->brithday,
 			'diachi' => $request->address,
@@ -145,18 +145,20 @@ class AdminController extends Controller
 		return redirect()->route('profile');
 	}
 
-	public function create_password(){
+	public function create_password()
+	{
 		return view('admin.account.reset');
 	}
 
-	public function reset_password(Request $request){
+	public function reset_password(Request $request)
+	{
 		$old_password = $request->input('old-password');
 		$new_password = $request->input('password');
 		$password_confirm = $request->input('password_confirmation');
 		$user = Auth::user();
 		$userId = Auth::id();
-		if(Hash::check($old_password, $user->password) && $new_password === $password_confirm ){
-			$updateData = DB::table('users')->where('id', $userId)->update([
+		if (Hash::check($old_password, $user->password) && $new_password === $password_confirm) {
+			$updateData = DB::table('can_bo_quan_ly')->where('id', $userId)->update([
 				'password' => Hash::make($request->password)
 			]);
 			if ($updateData) {
@@ -164,10 +166,10 @@ class AdminController extends Controller
 			} else {
 				Toastr::error('Lưu không thành công', 'Thất bại');
 			}
-		}elseif($new_password != $password_confirm){
+		} elseif ($new_password != $password_confirm) {
 			Toastr::error('Mật khẩu không trùng khớp', 'Thất bại');
 			return redirect()->refresh();
-		}else{
+		} else {
 			Toastr::error('Mật khẩu cũ không đúng', 'Thất bại');
 			return redirect()->refresh();
 		}

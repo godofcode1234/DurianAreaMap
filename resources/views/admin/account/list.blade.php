@@ -26,7 +26,7 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Tên Đăng Nhập</th>
-                                <th>Email</th>
+                                <th>username</th>
                                 <th>Hành Động</th>
                             </tr>
                         </thead>
@@ -41,9 +41,9 @@
                                     <?php //Lấy tên user
                                     ?>
                                     <td>{{ $user->name }}</td>
-                                    <?php //Lấy email
+                                    <?php //Lấy username
                                     ?>
-                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->username }}</td>
                                     <td>
                                         <a style="font-size: 11px; height: 40px; min-width: 60px; padding:4px" class="btn btn-app" href="/admin/account/{{ $user->id }}/edit">
                                             <i class="fas fa-edit" style="display: block; font-size: 17px;"></i> Sửa

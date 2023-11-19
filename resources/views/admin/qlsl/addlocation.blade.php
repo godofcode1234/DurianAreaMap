@@ -71,8 +71,7 @@
                         <div class="form-group">
                             <label for="exampleInputtext1">Hình ảnh</label>
 
-                            <input id="hinhanh" name="hinhanh[]" type="file" class="form-control"
-                                id="exampleInputtext1" value="" multiple>
+                            <input id="hinhanh" name="hinhanh[]" type="file" class="form-control" id="exampleInputtext1" value="" multiple>
                         </div>
 
                         <div class="form-group">

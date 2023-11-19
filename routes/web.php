@@ -2,16 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,8 +21,8 @@ Route::post('/admin/account/update', 'AdminController@update');
 Route::get('/admin/account/{id}/delete', 'AdminController@destroy');
 Route::get('/admin/account/profile', 'AdminController@show')->name('profile');
 Route::post('/update-profile', 'AdminController@update_profile');
-Route::get('/reset-password','AdminController@create_password');
-Route::post('/reset-password','AdminController@reset_password');
+Route::get('/reset-password', 'AdminController@create_password');
+Route::post('/reset-password', 'AdminController@reset_password');
 
 
 // Các route của District
@@ -53,20 +44,15 @@ Route::get('/admin/commune/{mxa}/delete', 'CommuneController@destroy');
 Route::get('/admin/commune', 'CommuneController@list');
 
 // Route của QLSL
-Route::get('/location', 'QuanLySatLoController@location' )->name('location');
-Route::get('/admin/qlsl/addlocation', 'QuanLySatLoController@shape');
+Route::get('/location', 'QuanLySatLoController@location')->name('location');
+Route::get('/admin/qlsl/addlocation', 'QuanLySatController@shape');
 Route::get('/admin/qlsl/addlocation/{mahuyen}', 'QuanLySatLoController@getxa');
 Route::post('/admin/qlsl/addlocation', 'QuanLySatLoController@insertlocation');
 Route::get('/admin/qlsl/{madiadiem}/editlocation', 'QuanLySatLoController@editLocation')->name('editlocation');
 Route::post('/admin/qlsl/updatelocation', 'QuanLySatLoController@updateLocation');
 Route::get('/admin/qlsl/{madiadiem}/delete', 'QuanLySatLoController@destroy');
-Route::get('/admin/qlsl/{madiadiem}/image','QuanLySatLoController@image');
-Route::get('/admin/qlsl/{id}/imagedelete','QuanLySatLoController@imageDelete');
+Route::get('/admin/qlsl/{madiadiem}/image', 'QuanLySatLoController@image');
+Route::get('/admin/qlsl/{id}/imagedelete', 'QuanLySatLoController@imageDelete');
 
 Route::get('/admin/map', 'MapController@map')->name('map');
 Route::get('/admin/map', 'MapController@loadPolyline');
-
-
-
-
-

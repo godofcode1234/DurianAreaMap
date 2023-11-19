@@ -145,8 +145,7 @@
 
                 <div id="year" class="info-year">
                     <img src="{{ asset('img/Shorelinechanges0_190304.png') }}" alt=""><span>1903-04</span>
-                    <img src="{{ asset('img/Shorelinechanges0_L701419651989.png') }}"
-                        alt=""><span>1965-1989</span>
+                    <img src="{{ asset('img/Shorelinechanges0_L701419651989.png') }}"alt=""><span>1965-1989</span>
                     <img src="{{ asset('img/Shorelinechanges0_1988.png') }}" alt=""><span>1988</span>
                     <img src="{{ asset('img/Shorelinechanges0_1990.png') }}" alt=""><span>1990</span>
                     <img src="{{ asset('img/Shorelinechanges0_1999.png') }}" alt=""><span>1999</span>
